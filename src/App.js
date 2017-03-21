@@ -53,7 +53,6 @@ export default class ZhihuNews extends Component {
                     style={styles.container}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
-                    renderSeparator={this._renderSeparator.bind(this)}
                     enableEmptySections
                 >
                 </ListView>

@@ -10,14 +10,12 @@ import {
     ListView,
     Image,
 } from 'react-native';
-import {getTheme} from 'react-native-material-kit';
 
 
-const theme = getTheme();
 export default class NewsItem extends Component {
     render() {
         const {data} =this.props;
-        return <View style={[styles.container, theme.checkboxStyle]}>
+        return <View style={[styles.container]}>
             <Text style={styles.title}> {data.title}</Text>
             <Image source={{uri: data.images[0]}} style={styles.img}/>
         </View>
@@ -30,7 +28,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
         borderRadius: 10,
-        marginVertical: 5,
+        marginVertical: 3,
         marginHorizontal: 12,
         shadowRadius: 3,
     },
