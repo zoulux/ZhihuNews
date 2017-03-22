@@ -9,17 +9,21 @@ import {
     ListView,
     ToastAndroid
 } from 'react-native';
+import ViewPager from 'react-native-viewpager';
 
 import NewsItem from './component/NewsItem'
 import Divider from './component/Divider'
+import BannerItem from './component/BannerItem'
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var bannerDs = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2});
 
 export default class ZhihuNews extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: ds.cloneWithRows([])
+            dataSource: ds.cloneWithRows([]),
+            bannerDataSource: bannerDs.cloneWithPages([]),
         }
     }
 
@@ -28,7 +32,8 @@ export default class ZhihuNews extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseJson.stories)
+                    dataSource: this.state.dataSource.cloneWithRows(responseJson.stories),
+                    bannerDataSource: this.state.bannerDataSource.cloneWithPages(responseJson.top_stories),
                 })
             })
             .catch((e) => {
@@ -44,6 +49,19 @@ export default class ZhihuNews extends Component {
         return <Divider key={sectionID + rowID }/>
     }
 
+    _renderPage(data, id) {
+        return <BannerItem data={data}></BannerItem>
+    }
+
+    _renderHeader() {
+        return <ViewPager
+            dataSource={this.state.bannerDataSource}
+            renderPage={this._renderPage.bind(this)}
+            isLoop
+            autoPlay
+            ></ViewPager>
+    }
+
     // renderRow 每一行Item
     // renderSeparator 分割线
     render() {
@@ -53,11 +71,11 @@ export default class ZhihuNews extends Component {
                     style={styles.container}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
-                    enableEmptySections
+                    enableEmptySections={true}
+                    renderHeader={this._renderHeader.bind(this)}
                 >
                 </ListView>
             </View>
-
         );
     }
 }

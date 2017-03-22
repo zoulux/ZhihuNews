@@ -17,7 +17,7 @@ export default class NewsItem extends Component {
         const {data} =this.props;
         return <View style={[styles.container]}>
             <Text style={styles.title}> {data.title}</Text>
-            <Image source={{uri: data.images[0]}} style={styles.img}/>
+            <Image source={{uri: data.image ? data.image : data.images[0]}} style={styles.img}/>
         </View>
     }
 }
