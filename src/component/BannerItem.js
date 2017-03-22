@@ -34,12 +34,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        fontSize: 18,
+        fontSize: 22,
         color: 'white',
         alignSelf: 'flex-start',
         marginBottom: 10,
-        fontWeight: '500',
-        padding: 10,
+        fontWeight: '400',
+        padding: 14,
     },
     mask: {
         backgroundColor: 'rgba(0,0,0,0.2)',
