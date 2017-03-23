@@ -8,19 +8,26 @@ import {
     View,
     ListView,
     ToastAndroid,
-    Image
+    Image,
+    TouchableOpacity,
 } from 'react-native';
+import {Actions,} from 'react-native-router-flux';
 
 export default class BannerItem extends Component {
+    _onPress() {
+        const {data} =this.props;
+        Actions.details({id: data.id});
+    }
+
     render() {
         const {image, title} =this.props.data;
-        return <View style={styles.container}>
+        return <TouchableOpacity style={styles.container} onPress={this._onPress.bind(this)}>
             <Image source={{uri: image}} style={styles.img}>
                 <View style={styles.mask}>
                     <Text style={styles.title} numberOfLines={2}>{title}</Text>
                 </View>
             </Image>
-        </View>
+        </TouchableOpacity>
     }
 }
 

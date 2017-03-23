@@ -6,19 +6,23 @@ import React, {Component} from 'react'
 import {
     StyleSheet,
     Text,
-    View,
-    ListView,
     Image,
+    TouchableOpacity
 } from 'react-native';
-
+import {Actions,} from 'react-native-router-flux';
 
 export default class NewsItem extends Component {
+    _onPress() {
+        const {data} =this.props;
+        Actions.details({id: data.id});
+    }
+
     render() {
         const {data} =this.props;
-        return <View style={[styles.container]}>
+        return <TouchableOpacity style={[styles.container]} onPress={this._onPress.bind(this)}>
             <Text style={styles.title}> {data.title}</Text>
             <Image source={{uri: data.image ? data.image : data.images[0]}} style={styles.img}/>
-        </View>
+        </TouchableOpacity>
     }
 }
 
