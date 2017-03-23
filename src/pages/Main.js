@@ -7,7 +7,8 @@ import {
     Text,
     View,
     ListView,
-    ToastAndroid
+    ToastAndroid,
+    RefreshControl,
 } from 'react-native';
 import ViewPager from 'react-native-viewpager';
 
@@ -24,10 +25,20 @@ export default class ZhihuNews extends Component {
         this.state = {
             dataSource: ds.cloneWithRows([]),
             bannerDataSource: bannerDs.cloneWithPages([]),
+            refreshing: false,
         }
+        this.fetchData = this.fetchData.bind(this)
     }
 
     componentDidMount() {
+        this.fetchData();
+    }
+
+    _onRefresh() {
+        this.fetchData()
+    }
+
+    fetchData() {
         fetch('http://news-at.zhihu.com/api/4/news/latest')
             .then((response) => response.json())
             .then((responseJson) => {
@@ -59,7 +70,16 @@ export default class ZhihuNews extends Component {
             renderPage={this._renderPage.bind(this)}
             isLoop
             autoPlay
-        ></ViewPager>
+        />
+    }
+
+    //不能这样写 不知道为啥 现在还不能解决
+    _refreshControl() {
+        return <RefreshControl
+            refreshing={this.state.refreshing}
+            colors={['#ff0000', '#00ff00', '#0000ff']}
+            onRefresh={this._onRefresh.bind(this)}
+        />;
     }
 
     // renderRow 每一行Item
@@ -67,13 +87,17 @@ export default class ZhihuNews extends Component {
     render() {
         return (
             <View style={styles.container}>
-
                 <ListView
                     style={styles.container}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
                     enableEmptySections={true}
                     renderHeader={this._renderHeader.bind(this)}
+                    refreshControl={<RefreshControl
+                        refreshing={this.state.refreshing}
+                        colors={['#ff0000', '#00ff00', '#0000ff']}
+                        onRefresh={this._onRefresh.bind(this)}
+                    />}
                 >
                 </ListView>
             </View>
