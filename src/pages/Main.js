@@ -28,6 +28,7 @@ export default class ZhihuNews extends Component {
             refreshing: false,
         }
         this.fetchData = this.fetchData.bind(this)
+        this._refreshControl = this._refreshControl.bind(this)
     }
 
     componentDidMount() {
